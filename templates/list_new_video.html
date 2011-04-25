@@ -1,0 +1,51 @@
+<h2>点播站最近更新视频</h2>
+<style>
+    .video_list {
+        float:left;
+        height: 650px;
+    }
+
+    .video_info {
+        line-height:15px;
+    }
+
+    a .site {
+        text-decoration: none;
+        color: #AABBCC;
+    }
+
+    a {
+        text-decoration: none;
+        color: #3A64B0;
+        font: 12px "宋体",Arial;
+    }
+
+    a:hover {
+        text-decoration: underline;
+        color: #3A64B0;
+        font: 12px "宋体",Arial;
+    }
+
+    a:visited {
+        color: #FF0000;
+        font: 12px "宋体",Arial;
+    }
+
+    em {
+        font: 12px "宋体",Arial;
+    }
+
+</style>
+{% for site in video_sites %}
+<div class="video_list">
+    <h4><center><a class="site" href="{{ site }}" target="_blank" >{{ site[:25] }}</a></center></h4>
+    {% set video_list = video_sites[site] %}
+    <ul>
+        {% for video_info in video_list %}
+        <li class="video_info">
+        <em>{{video_info[2]}}</em>
+        <a href="{{video_info[1]}}" target="_blank">{{ video_info[0][:15] }}</a></li>
+        {% endfor %}
+    </ul>
+</div>
+{% endfor %}
