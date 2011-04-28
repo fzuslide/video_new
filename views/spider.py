@@ -237,6 +237,26 @@ class Parser(object):
 
 
 
+    def process_hao41(self):
+        try:
+            url = 'http://www.hao41.com/'
+            url_prefix = 'http://www.hao41.com'
+            content = self.open(url)
+            content = content.decode('gbk')
+            if not content:
+                return None
+
+            soup = BeautifulSoup(content)
+            new_div =  soup.findAll('div', {"class": "hbd12 ssv"})[0]
+            video_list = []
+            li_list = new_div.findAll('li')
+            for li in li_list:
+                video_list.append([li.a['title'], li.a['href'], li.span.text])
+            self.video_sites[url] = video_list[:VIDEO_LIST_LIMIT]
+        except:
+            import traceback; traceback.print_exc()
+            pass
+
 
 @spider.route('/')
 def list_new_video():
@@ -250,4 +270,5 @@ def list_new_video():
     parser.process_uobb()
     parser.process_3gyys()
     parser.process_7788dy()
+    parser.process_hao41()
     return render_template('list_new_video.html', video_sites=parser.video_sites) 
